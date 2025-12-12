@@ -23,7 +23,7 @@ It analyzes **physical activity**, **stress levels**, and **biometrics** to reco
 def load_data():
     # Ensure the CSV is in the same repository as this script
     try:
-        df = pd.read_csv('Sleep_health_and_lifestyle_dataset.csv')
+        df = pd.read_csv('Sleep_health_and_lifestyle_dataset') 
         return df
     except FileNotFoundError:
         st.error("CSV file not found. Please make sure 'Sleep_health_and_lifestyle_dataset.csv' is in the repository.")
