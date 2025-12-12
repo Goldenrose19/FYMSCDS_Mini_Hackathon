@@ -104,16 +104,68 @@ if df is not None:
         if user_activity > 60:
             st.info("💪 High physical activity detected. Deep sleep is crucial for muscle repair tonight.")
 
-    # --- 7. VISUALIZATIONS ---
+   # --- 7. DYNAMIC VISUALIZATIONS ---
     st.divider()
-    st.subheader("🔍 What impacts your sleep needs?")
-    
-    # Feature Importance Plot
-    fig, ax = plt.subplots(figsize=(8, 4))
-    sns.barplot(x=model.feature_importances_, y=features, palette='viridis', ax=ax)
-    ax.set_title("Feature Importance in Sleep Prediction")
-    ax.set_xlabel("Importance Score")
-    st.pyplot(fig)
+    st.subheader("🔍 Interactive Analysis: How specific factors affect YOU")
+
+    tab1, tab2 = st.tabs(["📉 Stress Impact", "🏃‍♂️ Activity Impact"])
+
+    # --- TAB 1: HOW STRESS CHANGES YOUR SLEEP NEEDS ---
+    with tab1:
+        st.write("See how your sleep requirement changes if you increase/decrease stress while keeping everything else constant.")
+        
+        # 1. Create a range of stress levels (1 to 10)
+        stress_range = range(1, 11)
+        predictions = []
+
+        # 2. Predict sleep for each stress level (holding age, gender, activity constant)
+        gender_encoded = le.transform([user_gender])[0]
+        for s in stress_range:
+            # We use the USER'S current inputs for everything except stress
+            input_data = np.array([[user_age, gender_encoded, user_activity, s, user_hr, user_steps]])
+            pred_hours = model.predict(input_data)[0]
+            predictions.append(pred_hours)
+
+        # 3. Plot the data
+        fig1, ax1 = plt.subplots(figsize=(8, 4))
+        sns.lineplot(x=stress_range, y=predictions, marker="o", color="coral", ax=ax1)
+        
+        # Highlight the user's current selection
+        current_pred = model.predict(np.array([[user_age, gender_encoded, user_activity, user_stress, user_hr, user_steps]]))[0]
+        ax1.scatter(user_stress, current_pred, color="red", s=150, zorder=5, label="Your Current Level")
+        
+        ax1.set_title(f"Sleep Needs vs. Stress (for a {user_age}yo {user_gender})")
+        ax1.set_xlabel("Stress Level (1-10)")
+        ax1.set_ylabel("Predicted Sleep Needed (Hours)")
+        ax1.legend()
+        ax1.grid(True, linestyle='--', alpha=0.5)
+        st.pyplot(fig1)
+
+    # --- TAB 2: HOW ACTIVITY CHANGES YOUR SLEEP NEEDS ---
+    with tab2:
+        st.write("Does exercising more increase your need for recovery?")
+        
+        # 1. Create range of activity (0 to 120 mins)
+        activity_range = range(0, 121, 10) # 0, 10, 20... 120
+        act_predictions = []
+
+        for a in activity_range:
+            input_data = np.array([[user_age, gender_encoded, a, user_stress, user_hr, user_steps]])
+            pred_hours = model.predict(input_data)[0]
+            act_predictions.append(pred_hours)
+
+        fig2, ax2 = plt.subplots(figsize=(8, 4))
+        sns.lineplot(x=activity_range, y=act_predictions, marker="o", color="teal", ax=ax2)
+        
+        # Highlight current
+        ax2.scatter(user_activity, current_pred, color="red", s=150, zorder=5, label="Your Current Level")
+
+        ax2.set_title(f"Sleep Needs vs. Physical Activity")
+        ax2.set_xlabel("Activity Minutes")
+        ax2.set_ylabel("Predicted Sleep Needed (Hours)")
+        ax2.legend()
+        ax2.grid(True, linestyle='--', alpha=0.5)
+        st.pyplot(fig2)
 
 else:
     st.warning("Data could not be loaded. Please check your file structure.")
