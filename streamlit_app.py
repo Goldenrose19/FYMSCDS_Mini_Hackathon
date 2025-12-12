@@ -2,8 +2,9 @@ import streamlit as st
 
 st.title('To my dear Prachi')
 
-st.write('जशी पूर्वेची लाली, सूर्याची पहिली किरण, तशीच तू आहेस, आनंदाचं एक कारण. नावातच तुझ्या दडली आहे, एक नवी सुरुवात, मैत्री तुझी जशी, सुखद पहाटेची वात.
+st.write('Like the redness of the East, the first ray of the sun, You are just like that, a reason for joy. Hidden in your name is a new beginning, Your friendship is like a pleasant morning breeze.
 
-तुझ्या हास्याने उजळून जावं, हे अवघं जग, स्वप्नांच्या वाटेवर, तू टाकावं पुढचं पाऊल, एक एक मग. प्राची, तुझं हे अस्तित्व, जणू दवाचा थेंब, तुझ्या असण्यानेच मिळतो, मनाला एक विसावा, एक निंब.
+May this whole world light up with your smile, May you take step after step on the path of your dreams. Prachi, your existence is like a drop of dew, Just your presence gives the mind a rest, a shelter.
 
-सदैव हसत राहा, फुलांसारखी उमलत राहा, आयुष्याच्या आकाशात, तू ताऱ्यासारखी चमकत राहा.')
+Keep smiling always, keep blooming like a flower, Keep shining like a star in the sky of life.
+All the best for your tommorows exam!!')
